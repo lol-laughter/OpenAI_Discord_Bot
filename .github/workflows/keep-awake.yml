@@ -12,8 +12,12 @@ jobs:
       - name: Check current hour
         id: time_check
         run: |
-          HOUR=$(date +%H)
-          if [ "$HOUR" -ge 5 ] && [ "$HOUR" -lt 10 ]; then
+          HOUR=$(date -u +%H)  # UTCの現在時刻を取得
+          JST_HOUR=$(( (HOUR + 9) % 24 ))  # JST に変換
+          echo "Current UTC Hour: $HOUR"
+          echo "Converted JST Hour: $JST_HOUR"
+
+          if [ "$JST_HOUR" -ge 5 ] && [ "$JST_HOUR" -lt 10 ]; then
             echo "sleep_time=true" >> $GITHUB_OUTPUT
           else
             echo "sleep_time=false" >> $GITHUB_OUTPUT
