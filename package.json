@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -12,11 +12,13 @@
   "dependencies": {
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.1",
+    "express": "^4.21.2",
     "module-alias": "^2.2.3",
     "openai": "^4.26.1"
   },
   "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "typescript": "^5.8.2"
   },
   "_moduleAliases": {

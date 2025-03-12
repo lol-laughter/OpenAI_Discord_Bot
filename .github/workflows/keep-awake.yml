@@ -1,0 +1,26 @@
+name: Keep Render Service Awake
+
+on:
+  schedule:
+    - cron: '*/13 * * * *' # 13分間隔で実行
+  workflow_dispatch:
+
+jobs:
+  keep-awake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check current hour
+        id: time_check
+        run: |
+          HOUR=$(date +%H)
+          if [ "$HOUR" -ge 5 ] && [ "$HOUR" -lt 10 ]; then
+            echo "sleep_time=true" >> $GITHUB_OUTPUT
+          else
+            echo "sleep_time=false" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - name: Keep Render Service Awake
+        if: ${{ steps.time_check.outputs.sleep_time == 'false' }}
+        run: |
+          curl -s -o /dev/null "https://your-render-app.onrender.com"
