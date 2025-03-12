@@ -1,0 +1,11 @@
+# dependencies
+/node_modules/
+/dist/
+
+# misc
+.DS_Store
+*.pem
+
+# local env files
+.env
+.env.dev
