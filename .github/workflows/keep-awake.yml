@@ -23,4 +23,4 @@ jobs:
       - name: Keep Render Service Awake
         if: ${{ steps.time_check.outputs.sleep_time == 'false' }}
         run: |
-          curl -s -o /dev/null "https://your-render-app.onrender.com"
+          curl -s -o /dev/null "https://openai-discord-bot-3q6c.onrender.com"
