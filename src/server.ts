@@ -16,7 +16,8 @@ const PORT = process.env.PORT || 3000;
 
 // renderデプロイ用のダミーサーバー
 app.get('/', (req, res) => {
-  res.send('Hello from Render! Your bot is running.');
+  console.log(`[${new Date().toISOString()}] Ping received from GitHub Actions`);
+  res.send('bot is running.');
 });
 
 app.listen(PORT, () => {
