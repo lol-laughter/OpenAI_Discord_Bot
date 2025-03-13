@@ -2,29 +2,14 @@ name: Keep Render Service Awake
 
 on:
   schedule:
-    - cron: '*/13 * * * *' # 13分間隔で実行
+    - cron: '*/5 * * * *' # 5分間隔で実行
   workflow_dispatch:
 
 jobs:
   keep-awake:
     runs-on: ubuntu-latest
     steps:
-      - name: Check current hour
-        id: time_check
-        run: |
-          HOUR=$(date -u +%H)  # UTCの現在時刻を取得
-          JST_HOUR=$(( (HOUR + 9) % 24 ))  # JST に変換
-          echo "Current UTC Hour: $HOUR"
-          echo "Converted JST Hour: $JST_HOUR"
-
-          if [ "$JST_HOUR" -ge 5 ] && [ "$JST_HOUR" -lt 10 ]; then
-            echo "sleep_time=true" >> $GITHUB_OUTPUT
-          else
-            echo "sleep_time=false" >> $GITHUB_OUTPUT
-          fi
-        shell: bash
-
       - name: Keep Render Service Awake
-        if: ${{ steps.time_check.outputs.sleep_time == 'false' }}
         run: |
-          curl -s -o /dev/null "https://openai-discord-bot-3q6c.onrender.com"
+          echo "Pinging Render server..."
+          curl -v --retry 3 --retry-delay 5 "https://openai-discord-bot-3q6c.onrender.com"
