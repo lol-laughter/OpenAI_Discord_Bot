@@ -1,6 +1,7 @@
 import { ChatCompletionMessageParam } from 'openai/resources';
 
 import { openai } from '@/openAi';
+import { amuroPrompt } from './characterPrompt';
 
 export type OpenAiMessage = {
   role: 'user' | 'assistant' | 'system';
@@ -24,7 +25,14 @@ export const answerOpenAi = async (
       role: 'user',
       content: `${question}`,
     };
-    const messages = [...history, submitMessage];
+
+    // 安室さん
+    const characterPromptMessage: ChatCompletionMessageParam = {
+      role: 'system',
+      content: `${amuroPrompt}`,
+    };
+
+    const messages = [characterPromptMessage, ...history, submitMessage];
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
